@@ -1,4 +1,4 @@
-from translate import translate
+from middle import validation 
 from flask import Flask
 from flask import request
 from flask import jsonify
@@ -8,14 +8,8 @@ app = Flask(__name__)
 @app.route('/api/gesture', methods=['POST'])
 def ejemplo5():
     if request.method == 'POST':
-            content = request.get_json(force=True)
-            if 'imageString' in content.keys():
-                if content['imageString'] == '':
-                    return jsonify(result=''),400
-                palabra = translate(content['imageString'])
-            if palabra == '':
-                return jsonify(result=palabra),404        
-            return jsonify(result=palabra),200
+        content = request.get_json(force=True)
+        return validation(content)
 
 if __name__ == "__main__":
     

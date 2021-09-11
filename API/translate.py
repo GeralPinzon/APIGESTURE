@@ -33,9 +33,10 @@ def translate(content):
             image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
             results = hands.process(image_rgb)
+            if results.multi_handedness is None:
+                return 'NOT_HANDS'
             label = results.multi_handedness[0].classification[0].label
-
-            print(results.multi_handedness)
+            print(results.multi_handedness[0].classification[0].label)
 
             if results.multi_hand_landmarks is not None:
 
@@ -76,6 +77,6 @@ def translate(content):
                     resultadoValidacion = thumbIsOpen+indexIsOpen+middelIsOpen+ringIsOpen+pinkyIsOpen
                     if resultadoValidacion in diccionarioPalabras:
                         palabra = diccionarioPalabras[resultadoValidacion]
-                return palabra
+                return "NOT_FOUND"
                         
                         
