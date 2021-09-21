@@ -4,29 +4,25 @@ from os import abort
 import mediapipe as mp
 import cv2
 
-
-
+diccionarioPalabras = {
+    "11111": "CINCO",
+    "01111": "CUATRO",
+    "01100": "DOS",
+    "11001": "SPIDERMAN",
+    "00000": "PUÑO",
+    "01001": "DIABLO O UNIVERSIDAD",
+    "11000": "LUNES",
+    "01000": "ARRIBA O UNO",
+}
 def translate(content):
     palabra = ''
     image = content
     imgdata = base64.b64decode(image)
-    filename = '/some_image.jpg'
+    filename = './some_image.jpg'
     with open(filename, 'wb') as f:
         f.write(imgdata)
         mp_drawing = mp.solutions.drawing_utils
         mp_hands = mp.solutions.hands
-        diccionarioPalabras = {
-            "11111": "CINCO",
-            "01111": "CUATRO",
-            "01110": "TRES",
-            "01100": "DOS",
-            "01000": "UNO",
-            "11001": "SPIDERMAN",
-            "00000": "PUÑO",
-            "11000": "LUNES",
-            "01000": "ARRIBA",
-            "10000": "AGOSTO"
-        }
         with mp_hands.Hands(
                 static_image_mode=True,
                 max_num_hands=1,
@@ -54,7 +50,7 @@ def translate(content):
                     ringIsOpen = "0"
                     pinkyIsOpen = "0"
 
-                    pseudoFixKeyPoint = handLandmarks.landmark[2].x
+                    pseudoFixKeyPoint = handLandmarks.landmark[5].x
 
                     if label == 'Right':
                         if handLandmarks.landmark[3].x < pseudoFixKeyPoint and handLandmarks.landmark[
@@ -88,4 +84,10 @@ def translate(content):
                     resultadoValidacion = thumbIsOpen + indexIsOpen + middelIsOpen + ringIsOpen + pinkyIsOpen
                     if resultadoValidacion in diccionarioPalabras:
                         palabra = diccionarioPalabras[resultadoValidacion]
-                return "NOT_FOUND"
+                    if resultadoValidacion == '10000':
+                        if handLandmarks.landmark[4].y < handLandmarks.landmark[5].y:
+                            palabra = 'BIEN O DIEZ'
+                    elif resultadoValidacion == '11000':
+                        if handLandmarks.landmark[4].y < handLandmarks.landmark[5].y:
+                            palabra = 'FEBRERO'
+    return palabra

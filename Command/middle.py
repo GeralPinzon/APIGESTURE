@@ -7,7 +7,7 @@ def validation(content):
         if content['imageString'] == '':
             return jsonify(result=''), 400
         palabra = translate(content['imageString'])
-    if palabra == 'NOT_FOUND':
+    if palabra == '':
         return jsonify(result='NOT_FOUND'), 404
     if palabra == 'NOT_HANDS':
         return jsonify(result=''), 400
