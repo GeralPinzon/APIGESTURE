@@ -5,15 +5,9 @@ import mediapipe as mp
 import cv2
 
 diccionarioPalabras = {
-    "11111": "CINCO",
-    "01111": "CUATRO",
-    "01100": "DOS",
-    "11001": "SPIDERMAN",
-    "00000": "PUÑO",
-    "01001": "DIABLO O UNIVERSIDAD",
-    "11000": "LUNES",
     "01000": "ARRIBA O UNO",
 }
+
 def translate(content):
     palabra = ''
     image = content
@@ -53,32 +47,24 @@ def translate(content):
                     pseudoFixKeyPoint = handLandmarks.landmark[5].x
 
                     if label == 'Right':
-                        if handLandmarks.landmark[3].x < pseudoFixKeyPoint and handLandmarks.landmark[
-                            4].x < pseudoFixKeyPoint:
+                        if handLandmarks.landmark[3].x < pseudoFixKeyPoint and handLandmarks.landmark[4].x < pseudoFixKeyPoint:
                             thumbIsOpen = "1"
                     elif label == 'Left':
-                        if handLandmarks.landmark[3].x > pseudoFixKeyPoint and handLandmarks.landmark[
-                            4].x > pseudoFixKeyPoint:
+                        if handLandmarks.landmark[3].x > pseudoFixKeyPoint and handLandmarks.landmark[4].x > pseudoFixKeyPoint:
                             thumbIsOpen = "1"
-
                     pseudoFixKeyPoint = handLandmarks.landmark[6].y
-                    if handLandmarks.landmark[7].y < pseudoFixKeyPoint and handLandmarks.landmark[
-                        8].y < pseudoFixKeyPoint:
+                    if handLandmarks.landmark[7].y < pseudoFixKeyPoint and handLandmarks.landmark[8].y < pseudoFixKeyPoint:
                         indexIsOpen = "1"
-
                     pseudoFixKeyPoint = handLandmarks.landmark[10].y
-                    if handLandmarks.landmark[11].y < pseudoFixKeyPoint and handLandmarks.landmark[
-                        12].y < pseudoFixKeyPoint:
+                    if handLandmarks.landmark[11].y < pseudoFixKeyPoint and handLandmarks.landmark[12].y < pseudoFixKeyPoint:
                         middelIsOpen = "1"
 
                     pseudoFixKeyPoint = handLandmarks.landmark[14].y
-                    if handLandmarks.landmark[15].y < pseudoFixKeyPoint and handLandmarks.landmark[
-                        16].y < pseudoFixKeyPoint:
+                    if handLandmarks.landmark[15].y < pseudoFixKeyPoint and handLandmarks.landmark[16].y < pseudoFixKeyPoint:
                         ringIsOpen = "1"
 
                     pseudoFixKeyPoint = handLandmarks.landmark[18].y
-                    if handLandmarks.landmark[19].y < pseudoFixKeyPoint and handLandmarks.landmark[
-                        20].y < pseudoFixKeyPoint:
+                    if handLandmarks.landmark[19].y < pseudoFixKeyPoint and handLandmarks.landmark[20].y < pseudoFixKeyPoint:
                         pinkyIsOpen = "1"
 
                     resultadoValidacion = thumbIsOpen + indexIsOpen + middelIsOpen + ringIsOpen + pinkyIsOpen
@@ -87,7 +73,11 @@ def translate(content):
                     if resultadoValidacion == '10000':
                         if handLandmarks.landmark[4].y < handLandmarks.landmark[5].y:
                             palabra = 'BIEN O DIEZ'
+                        else:
+                            palabra = 'MAL'
                     elif resultadoValidacion == '11000':
                         if handLandmarks.landmark[4].y < handLandmarks.landmark[5].y:
                             palabra = 'FEBRERO'
+                        else:
+                            palabra = 'LUNES'
     return palabra
